@@ -8,77 +8,26 @@ import json
 
 
 class FormThread(threading.Thread):
-    def __init__(self, name, title, artist):
+    def __init__(self, delay, title, artist):
         threading.Thread.__init__(self)
-        self.name = name
+        self.delay = delay
         self.title = title
         self.artist = artist
         self.counter = []
         self.count = {}
 
-    def run(self,delay):
+    def run(self):
         t = 0
-        while t < 10:
+        while t < 2:
             t += 1
             print 'Starting ' + self.name
-            time.sleep(delay)
+            time.sleep(self.delay)
             filler(self.title, self.artist)
             print 'Ending ' + self.name + '\t' + str(t)
             self.counter.append(t)
             self.count[self.title] = self.counter[len(self.counter)-1]
             #print self.count
 
-
-
-class DMBThread(FormThread, threading.Thread):
-    def __init__(self, name, title, artist):
-        FormThread.__init__(self, name, title, artist) 
-        threading.Thread.__init__(self)
-        self.counter = []
-        self.count = {}
-        
-
-    def run(self):
-        delay = 30
-        FormThread.run(self, delay)
-        
-        
-
-
-class MayerThread(FormThread, threading.Thread):
-    def __init__(self, name, title, artist):
-        FormThread.__init__(self, name, title, artist) 
-        threading.Thread.__init__(self)
-        self.counter = []
-        self.count = {}
-
-    def run(self):
-        delay = 40
-        FormThread.run(self, delay)
-
-
-class MetallicaThread(FormThread, threading.Thread):
-    def __init__(self, name, title, artist):
-        FormThread.__init__(self, name, title, artist) 
-        threading.Thread.__init__(self)
-        self.counter = []
-        self.count = {}
-
-    def run(self):
-        delay = 50
-        FormThread.run(self, delay)
-
-
-class MiscThread(FormThread, threading.Thread):
-    def __init__(self, name, title, artist):
-        FormThread.__init__(self, name, title, artist) 
-        threading.Thread.__init__(self)
-        self.counter = []
-        self.count = {}
-
-    def run(self):
-        delay = 60
-        FormThread.run(self, delay)
 
 
 def filler(title, artist):
@@ -97,32 +46,47 @@ def filler(title, artist):
     print p + ' ' +  title
     print ' '
 
-# Create new threads
-thread1 = DMBThread("DMB",'One Sweet World','Dave Matthews Band')
-thread2 = MayerThread("Mayer", 'Where the Light Is','John Mayer')
-thread3 = MetallicaThread("Metallica", 'Master of Puppets','Metallica')
-thread4 = MiscThread("Miscellaneous", 'amor a la mexicana','thalia')
+
+def run_threads():
+    thread1 = FormThread(10,'Lie in Our Graves Live','Dave Matthews Band')
+    thread2 = FormThread(20, 'Gravity','John Mayer')
+    thread3 = FormThread(30, 'Aint It Fun','Paramore')
+    thread4 = FormThread(40, 'Hot for Teacher','Van Halen')
 
 
-thread1.start()
-thread2.start()
-thread3.start()
-thread4.start()
+    thread1.start()
+    thread2.start()
+    thread3.start()
+    thread4.start()
 
-thread1.join()
-thread2.join()
-thread3.join()
-thread4.join()
+    thread1.join()
+    thread2.join()
+    thread3.join()
+    thread4.join()
 
-dmb = thread1.count
-mayer = thread2.count
-metallica = thread3.count
-misc = thread4.count
+    dmb = thread1.count
+    mayer = thread2.count
+    metallica = thread3.count
+    misc = thread4.count
+
+    all_bands = [dmb, mayer, metallica, misc]
 
 
-with open('my_dict.json', 'a') as f:
-    json.dump(dmb, f)
-    json.dump(mayer, f)
-    json.dump(metallica, f)
-    json.dump(misc, f)
+    with open('counter.json', 'a') as f:
+        json.dump(all_bands, f)
 
+
+
+def tracker():
+    data = []
+    with open('counter.json') as read:
+        data = json.load(read)
+
+        for d in data:
+            print d
+
+
+
+#run_threads()
+for n in range(0, 2):
+    print 'thread' + str(n)+
