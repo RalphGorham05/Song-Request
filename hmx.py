@@ -49,21 +49,22 @@ def filler(title, artist):
 
 def run_threads():
     thread1 = FormThread(10,'Lie in Our Graves Live','Dave Matthews Band')
-    thread2 = FormThread(20, 'Gravity','John Mayer')
-    thread3 = FormThread(30, 'Aint It Fun','Paramore')
-    thread4 = FormThread(40, 'Hot for Teacher','Van Halen')
+    #thread2 = FormThread(20, 'Gravity','John Mayer')
+    #thread3 = FormThread(30, 'Aint It Fun','Paramore')
+    #thread4 = FormThread(40, 'Hot for Teacher','Van Halen')
 
 
     thread1.start()
-    thread2.start()
-    thread3.start()
-    thread4.start()
+    #thread2.start()
+    #thread3.start()
+    #thread4.start()
 
     thread1.join()
-    thread2.join()
-    thread3.join()
-    thread4.join()
+    #thread2.join()
+    #thread3.join()
+    #thread4.join()
 
+    '''
     dmb = thread1.count
     mayer = thread2.count
     metallica = thread3.count
@@ -76,7 +77,7 @@ def run_threads():
         json.dump(all_bands, f)
 
 
-
+    '''
 def tracker():
     data = []
     with open('counter.json') as read:
@@ -88,5 +89,3 @@ def tracker():
 
 
 #run_threads()
-for n in range(0, 2):
-    print 'thread' + str(n)+
