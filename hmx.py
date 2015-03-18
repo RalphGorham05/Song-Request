@@ -8,9 +8,10 @@ import json
 
 
 class FormThread(threading.Thread):
-    def __init__(self, delay, title, artist):
+    def __init__(self, delay, max_times, title, artist):
         threading.Thread.__init__(self)
         self.delay = delay
+        self.max = max_times
         self.title = title
         self.artist = artist
         self.counter = []
@@ -18,7 +19,7 @@ class FormThread(threading.Thread):
 
     def run(self):
         t = 0
-        while t < 10:
+        while t < self.max:
             t += 1
             print 'Starting ' + self.name
             time.sleep(self.delay)
