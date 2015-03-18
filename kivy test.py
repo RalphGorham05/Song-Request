@@ -1,7 +1,7 @@
 __author__ = 'Jarrod'
 
 
-from hmx import FormThread
+from hmx import FormThread, writer
 import kivy
 kivy.require('1.8.0') # replace with your current kivy version !
 
@@ -37,8 +37,12 @@ class FormInput(GridLayout):
         self.start1 = Button(text='Start', font_size=40)
         self.start1.bind(on_press=self.run_thread1)
         self.add_widget(self.start1)
+        '''
+        self.log1 = Button(text='Log', font_size=40)
+        self.log1.bind(on_press=self.logger)
+        self.add_widget(self.log1)
 
-
+        '''
         ##############2nd row######################################
 
         self.add_widget(Label(text='Song Title',size_hint_x=1, width=50))
@@ -82,16 +86,28 @@ class FormInput(GridLayout):
     def run_thread1(self, instance):
         thread = FormThread(int(self.delay.text), int(self.max.text), self.title.text, self.artist.text)
         thread.start()
+        writer(self.title.text, self.max.text)
 
     def run_thread2(self, instance):
         thread = FormThread(int(self.delay2.text), int(self.max2.text), self.title2.text, self.artist2.text)
         thread.start()
+        writer(self.title2.text, self.max2.text)
 
     def run_thread3(self, instance):
         thread = FormThread(int(self.delay3.text), int(self.max3.text), self.title3.text, self.artist3.text)
         thread.start()
-        
-
+        writer(self.title3.text, self.max3.text)
+    '''
+    def logger(self, instance):
+        with open('votes.txt', 'a') as f:
+            f.write('\n')
+            f.write(self.title.text + '' + self.max.text)
+            f.write('\n')
+            f.write(self.title2.text + '' + self.max2.text)
+            f.write('\n')
+            f.write(self.title3.text + '' + self.max3.text)
+            f.close()    
+    '''
 class MyFormApp(App):
 
     def build(self):
