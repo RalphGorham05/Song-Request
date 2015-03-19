@@ -79,28 +79,38 @@ def run_threads():
 
 
     '''
-def tracker():
-    data = []
-    with open('counter.json') as read:
-        data = json.load(read)
-
-        for d in data:
-            print d
 
 
 
 def writer(title, count):
     with open('votes.txt', 'a') as w:
+        w.write('\n')
         w.write(title + '  ' + count)
+        w.write('\n')
         w.close()
        
 def reader():
+    newl = []
     with open('votes.txt', 'r') as f:
         for line in f:
-            print line
+            line = line.split()
+            print line[len(line)-1]
+
+
+            '''
+            for value in line.split():
+                try:
+                    newl.append(int(value))
+                except ValueError:
+                    continue
+
+        print newl
+        '''
+            
+            
         
 
 
 #run_threads()
 #writer()
- #reader()
+reader()
