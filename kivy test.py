@@ -37,12 +37,8 @@ class FormInput(GridLayout):
         self.start1 = Button(text='Start', font_size=40)
         self.start1.bind(on_press=self.run_thread1)
         self.add_widget(self.start1)
-        '''
-        self.log1 = Button(text='Log', font_size=40)
-        self.log1.bind(on_press=self.logger)
-        self.add_widget(self.log1)
 
-        '''
+
         ##############2nd row######################################
 
         self.add_widget(Label(text='Song Title',size_hint_x=1, width=50))
@@ -97,17 +93,10 @@ class FormInput(GridLayout):
         thread = FormThread(int(self.delay3.text), int(self.max3.text), self.title3.text, self.artist3.text)
         thread.start()
         writer(self.title3.text, self.max3.text)
-    '''
-    def logger(self, instance):
-        with open('votes.txt', 'a') as f:
-            f.write('\n')
-            f.write(self.title.text + '' + self.max.text)
-            f.write('\n')
-            f.write(self.title2.text + '' + self.max2.text)
-            f.write('\n')
-            f.write(self.title3.text + '' + self.max3.text)
-            f.close()    
-    '''
+
+
+
+
 class MyFormApp(App):
 
     def build(self):

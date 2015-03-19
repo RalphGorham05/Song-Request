@@ -91,9 +91,7 @@ def tracker():
 
 def writer(title, count):
     with open('votes.txt', 'a') as w:
-        w.write('\n')
-        w.write(title + ' ' + count)
-        w.write('\n')
+        w.write(title + '  ' + count)
         w.close()
        
 def reader():
@@ -105,4 +103,4 @@ def reader():
 
 #run_threads()
 #writer()
-#reader()
+ #reader()
