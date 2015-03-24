@@ -1,7 +1,7 @@
 __author__ = 'Jarrod'
 
 
-from hmx import FormThread, writer
+from hmx import FormThread, track
 import kivy
 kivy.require('1.8.0') # replace with your current kivy version !
 
@@ -82,26 +82,26 @@ class FormInput(GridLayout):
     def run_thread1(self, instance):
         thread = FormThread(int(self.delay.text), int(self.max.text), self.title.text, self.artist.text)
         thread.start()
-        writer(self.title.text, self.max.text)
+        track(self.title.text, self.max.text)
 
     def run_thread2(self, instance):
         thread = FormThread(int(self.delay2.text), int(self.max2.text), self.title2.text, self.artist2.text)
         thread.start()
-        writer(self.title2.text, self.max2.text)
+        track(self.title2.text, self.max2.text)
 
     def run_thread3(self, instance):
         thread = FormThread(int(self.delay3.text), int(self.max3.text), self.title3.text, self.artist3.text)
         thread.start()
-        writer(self.title3.text, self.max3.text)
+        track(self.title3.text, self.max3.text)
 
 
 
 
-class MyFormApp(App):
+class FormApp(App):
 
     def build(self):
         return FormInput()
 
 
 if __name__ == '__main__':
-    MyFormApp().run()
+    FormApp().run()

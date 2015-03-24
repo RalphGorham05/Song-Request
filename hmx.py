@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import threading
 import time
 import json
+import collections
+from peewee import *
 
 
 
@@ -48,69 +50,74 @@ def filler(title, artist):
     print ' '
 
 
-def run_threads():
-    thread1 = FormThread(10,'Lie in Our Graves Live','Dave Matthews Band')
-    #thread2 = FormThread(20, 'Gravity','John Mayer')
-    #thread3 = FormThread(30, 'Aint It Fun','Paramore')
-    #thread4 = FormThread(40, 'Hot for Teacher','Van Halen')
+def writer():
+    db = MySQLDatabase('voteCount', user='root', passwd='')
+
+    class BaseModel(Model):
+        class Meta():
+            database = db
 
 
-    thread1.start()
-    #thread2.start()
-    #thread3.start()
-    #thread4.start()
-
-    #thread1.join()
-    #thread2.join()
-    #thread3.join()
-    #thread4.join()
-
-    '''
-    dmb = thread1.count
-    mayer = thread2.count
-    metallica = thread3.count
-    misc = thread4.count
-
-    all_bands = [dmb, mayer, metallica, misc]
+    class SongCount(BaseModel):
+        name = CharField(default='')
+        votes = IntegerField(default='')
 
 
-    with open('counter.json', 'a') as f:
-        json.dump(all_bands, f)
 
+    db.connect()
+
+    test = 'Twist and Shout'
+    for song in SongCount.select():
+        if song.name == test:
+            print song.votes
 
     '''
-
-
-
-def writer(title, count):
-    with open('votes.txt', 'a') as w:
-        w.write('\n')
-        w.write(title + '  ' + count)
-        w.write('\n')
-        w.close()
+    test = 'Two Step'
+    if SongCount.get(SongCount.name == test).name:
+        print SongCount.get(SongCount.name == test).votes
+    '''
        
 def reader():
     newl = []
     with open('votes.txt', 'r') as f:
         for line in f:
             line = line.split()
-            print line[len(line)-1]
-
-
-            '''
-            for value in line.split():
-                try:
-                    newl.append(int(value))
-                except ValueError:
-                    continue
-
+            song = line[:len(line)-1]
+            newl.append(song)
         print newl
-        '''
-            
-            
-        
 
 
+
+def track(title, count):
+    db = MySQLDatabase('voteCount', user='root', passwd='')
+
+    class BaseModel(Model):
+        class Meta():
+            database = db
+
+
+    class SongCount(BaseModel):
+        name = CharField(default='')
+        votes = IntegerField(default='')
+
+    db.connect()
+
+
+    s = SongCount.create(name = title,votes = count)
+
+    song_name = SongCount.get(SongCount.name == title).name
+
+    #updates count for song that are already in table
+    if song_name:
+        update = SongCount.update(votes = SongCount.votes + int(count)).where(SongCount.name == title)
+        update.execute()
+
+
+
+
+
+
+#track()
 #run_threads()
 #writer()
-reader()
+#reader()
