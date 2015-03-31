@@ -12,6 +12,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.core.audio import SoundLoader
 
 
 class FormInput(GridLayout):
@@ -77,22 +78,40 @@ class FormInput(GridLayout):
         self.start3 = Button(text='Start', font_size=40)
         self.start3.bind(on_press=self.run_thread3)
         self.add_widget(self.start3)
+
+        #self.main_audio()
         
 
     def run_thread1(self, instance):
         thread = FormThread(int(self.delay.text), int(self.max.text), self.title.text, self.artist.text)
         thread.start()
+        #thread.join()
+        sound = SoundLoader.load('applause.wav')
+        sound.play()
         track(self.title.text, self.max.text)
 
     def run_thread2(self, instance):
         thread = FormThread(int(self.delay2.text), int(self.max2.text), self.title2.text, self.artist2.text)
         thread.start()
+        #thread.join()
+        sound = SoundLoader.load('dj_scratching.wav')
+        sound.play()
         track(self.title2.text, self.max2.text)
 
     def run_thread3(self, instance):
         thread = FormThread(int(self.delay3.text), int(self.max3.text), self.title3.text, self.artist3.text)
         thread.start()
+        #thread.join()
+        sound = SoundLoader.load('ufo_landing.wav')
+        sound.play()
         track(self.title3.text, self.max3.text)
+
+    def main_audio(self):
+        sound = SoundLoader.load('Fringe_Theme.ogg')
+        if sound:
+            print("Sound found at %s" % sound.source)
+            print("Sound is %.3f seconds" % sound.length)
+            sound.play()
 
 
 

@@ -6,6 +6,8 @@ import time
 import json
 import collections
 from peewee import *
+import pygame
+from pygame import mixer_music, mixer
 
 
 
@@ -51,14 +53,14 @@ def filler(title, artist):
 
 
 def writer():
-    db = MySQLDatabase('voteCount', user='root', passwd='')
+    db = MySQLDatabase('SongLog', user='root', passwd='')
 
     class BaseModel(Model):
         class Meta():
             database = db
 
 
-    class SongCount(BaseModel):
+    class Songs(BaseModel):
         name = CharField(default='')
         votes = IntegerField(default='')
 
@@ -66,12 +68,14 @@ def writer():
 
     db.connect()
 
+    db.create_table(Songs)
+    '''
     test = 'Twist and Shout'
     for song in SongCount.select():
         if song.name == test:
             print song.votes
 
-    '''
+
     test = 'Two Step'
     if SongCount.get(SongCount.name == test).name:
         print SongCount.get(SongCount.name == test).votes
@@ -89,35 +93,44 @@ def reader():
 
 
 def track(title, count):
-    db = MySQLDatabase('voteCount', user='root', passwd='')
+    db = MySQLDatabase('SongLog', user='root', passwd='')
 
     class BaseModel(Model):
         class Meta():
             database = db
 
 
-    class SongCount(BaseModel):
+    class Songs(BaseModel):
         name = CharField(default='')
         votes = IntegerField(default='')
 
     db.connect()
 
+    s = Songs.create(name = title,votes = count)
 
-    s = SongCount.create(name = title,votes = count)
-
-    song_name = SongCount.get(SongCount.name == title).name
+    song_name = Songs.get(Songs.name == title).name
 
     #updates count for song that are already in table
     if song_name:
-        update = SongCount.update(votes = SongCount.votes + int(count)).where(SongCount.name == title)
+        update = Songs.update(votes = Songs.votes + int(count)).where(Songs.name == title)
         update.execute()
 
 
 
 
+def play_music():
+    #pygame.init()
+    pygame.mixer.init()
+    loc = 'C:\Users\Jarrod\Downloads\Fringe_Theme_FULL_125k.ogg'
+    mixer.music.load(loc)
+    mixer.music.play(-1)
+
+    time.sleep(5)
+    print 'done'
 
 
 #track()
 #run_threads()
 #writer()
 #reader()
+#play_music()
