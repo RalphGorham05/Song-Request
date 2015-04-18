@@ -1,14 +1,12 @@
-import mechanize
-from mechanize import Browser
-from bs4 import BeautifulSoup
 import threading
 import time
-import json
-import collections
-from peewee import *
+import csv
 import pygame
-from pygame import mixer_music, mixer
 
+from mechanize import Browser
+from bs4 import BeautifulSoup
+from peewee import *
+from pygame import mixer
 
 
 class FormThread(threading.Thread):
@@ -68,7 +66,13 @@ def writer():
 
     db.connect()
 
-    db.create_table(Songs)
+
+    last = Songs.select().order_by(Songs.id.desc()).get().id
+    for song in Songs.select():
+        if song.id == 1:
+            song.id == 55
+        song.save()
+
     '''
     test = 'Twist and Shout'
     for song in SongCount.select():
@@ -81,14 +85,6 @@ def writer():
         print SongCount.get(SongCount.name == test).votes
     '''
        
-def reader():
-    newl = []
-    with open('votes.txt', 'r') as f:
-        for line in f:
-            line = line.split()
-            song = line[:len(line)-1]
-            newl.append(song)
-        print newl
 
 
 
@@ -129,8 +125,65 @@ def play_music():
     print 'done'
 
 
+def excel():
+    db = MySQLDatabase('SongLog', user='root', passwd='')
+
+    class BaseModel(Model):
+        class Meta():
+            database = db
+
+
+    class Songs(BaseModel):
+        name = CharField(default='')
+        votes = IntegerField(default='')
+
+
+
+    db.connect()
+
+    songs = []
+
+    for song in Songs.select():
+        songs.append((song.name, song.votes))
+
+
+    with open('SongLog.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(('Song','Votes'))
+        for song in songs:
+            writer.writerow((song))
+
+
+def reader(title, count):
+    with open('SongLog.csv', 'r') as f:
+        read = csv.reader(f)
+        next(read, None)
+        for row in read:
+            old = int(row[1])
+            if row[0] == title:
+                old = old + count
+                print old
+
+def newTrack(title, count):
+    with open('SongLog.csv', 'a') as f:
+        write = csv.writer(f)
+        write.writerow((title, count))
+        r = reader()
+
+
+
+
+
+
+
+
+
+
+
+
 #track()
 #run_threads()
 #writer()
-#reader()
+reader('Grey Street',5)
 #play_music()
+#excel()

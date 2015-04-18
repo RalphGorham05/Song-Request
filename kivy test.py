@@ -1,7 +1,7 @@
 __author__ = 'Jarrod'
 
 
-from hmx import FormThread, track
+from hmx import FormThread, newTrack,reader
 import kivy
 kivy.require('1.8.0') # replace with your current kivy version !
 
@@ -79,6 +79,12 @@ class FormInput(GridLayout):
         self.start3.bind(on_press=self.run_thread3)
         self.add_widget(self.start3)
 
+        '''
+        self.startAll = Button(text='Start All', font_size=25)
+        self.startAll.bind(on_press=self.run_all)
+        self.add_widget(self.startAll)
+        '''
+
         #self.main_audio()
         
 
@@ -86,9 +92,10 @@ class FormInput(GridLayout):
         thread = FormThread(int(self.delay.text), int(self.max.text), self.title.text, self.artist.text)
         thread.start()
         #thread.join()
-        sound = SoundLoader.load('applause.wav')
+
+        sound = SoundLoader.load('glass_ping.wav')
         sound.play()
-        track(self.title.text, self.max.text)
+        reader(self.title.text, self.max.text)
 
     def run_thread2(self, instance):
         thread = FormThread(int(self.delay2.text), int(self.max2.text), self.title2.text, self.artist2.text)
@@ -96,15 +103,17 @@ class FormInput(GridLayout):
         #thread.join()
         sound = SoundLoader.load('dj_scratching.wav')
         sound.play()
-        track(self.title2.text, self.max2.text)
+        newTrack(self.title2.text, self.max2.text)
 
     def run_thread3(self, instance):
         thread = FormThread(int(self.delay3.text), int(self.max3.text), self.title3.text, self.artist3.text)
         thread.start()
-        #thread.join()
+        thread.join()
         sound = SoundLoader.load('ufo_landing.wav')
         sound.play()
-        track(self.title3.text, self.max3.text)
+        newTrack(self.title3.text, self.max3.text)
+
+
 
     def main_audio(self):
         sound = SoundLoader.load('Fringe_Theme.ogg')
