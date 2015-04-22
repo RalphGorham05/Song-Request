@@ -168,14 +168,6 @@ def newTrack(title, count):
     with open('SongLog.csv', 'a') as f:
         write = csv.writer(f)
         write.writerow((title, count))
-        r = reader()
-
-
-
-
-
-
-
 
 
 
@@ -184,6 +176,6 @@ def newTrack(title, count):
 #track()
 #run_threads()
 #writer()
-reader('Grey Street',5)
+#reader('Grey Street',5)
 #play_music()
 #excel()

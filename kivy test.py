@@ -1,7 +1,7 @@
 __author__ = 'Jarrod'
 
 
-from hmx import FormThread, newTrack,reader
+from hmx import FormThread, newTrack
 import kivy
 kivy.require('1.8.0') # replace with your current kivy version !
 
@@ -95,7 +95,7 @@ class FormInput(GridLayout):
 
         sound = SoundLoader.load('glass_ping.wav')
         sound.play()
-        reader(self.title.text, self.max.text)
+        newTrack(self.title.text, self.max.text)
 
     def run_thread2(self, instance):
         thread = FormThread(int(self.delay2.text), int(self.max2.text), self.title2.text, self.artist2.text)
