@@ -5,7 +5,7 @@ import pygame
 
 from mechanize import Browser
 from bs4 import BeautifulSoup
-from peewee import *
+#from peewee import *
 from pygame import mixer
 
 
