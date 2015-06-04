@@ -14,10 +14,10 @@ import kivy_hmx
 from kivy_hmx import FormApp
 
 
-class FormInput(GridLayout):
+class Options(GridLayout):
 
     def __init__(self, **kwargs):
-        super(FormInput, self).__init__(**kwargs)
+        super(Options, self).__init__(**kwargs)
         self.cols = 2
         self.row_force_default=True
         self.row_default_height=40
@@ -40,11 +40,15 @@ class FormInput(GridLayout):
     def run_threads(self, instance):
         print 'pressed'
 
-class MyVoteApp(App):
+class ChooseApp(App):
 
     def build(self):
-        return FormInput()
+        return Options()
 
 
 if __name__ == '__main__':
-    MyVoteApp().run()
+    ChooseApp().run()
+
+
+
+

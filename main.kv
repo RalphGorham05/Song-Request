@@ -1,0 +1,40 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+
+ScreenManagement:
+    transition: FadeTransition()
+    MainScreen: 
+    TextScreen:
+	VoiceScreen:
+	
+<MainScreen>:
+    name: 'main'
+	
+	GridLayout:
+		cols:2
+		Button:
+			on_release: app.root.current = 'text'
+			text: 'Press here if you want to run with text'
+			font_size: 15
+				
+		Button:
+			on_release: app.root.current = 'voice'
+			text: 'Press here if you want to run with voice'
+			font_size: 15
+            
+<TextScreen>:
+    name: 'text'
+
+    Button:
+        on_release: app.root.current = 'main'
+        text: 'back to the home screen from text'
+        font_size: 50
+		
+
+<VoiceScreen>:
+    name: 'voice'
+
+    Button:
+        on_release: app.root.current = 'main'
+        text: 'back to the home screen from voice'
+        font_size: 50
