@@ -1,8 +1,8 @@
-#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+#: import SwapTransition kivy.uix.screenmanager.SwapTransition
 
 
 ScreenManagement:
-    transition: FadeTransition()
+    transition: SwapTransition()
     MainScreen: 
     TextScreen:
 	VoiceScreen:
@@ -24,11 +24,8 @@ ScreenManagement:
             
 <TextScreen>:
     name: 'text'
-
-    Button:
-        on_release: app.root.current = 'main'
-        text: 'back to the home screen from text'
-        font_size: 50
+	FormInput
+	
 		
 
 <VoiceScreen>:
