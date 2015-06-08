@@ -30,26 +30,4 @@ ScreenManagement:
 
 <VoiceScreen>:
     name: 'voice'
-	
-	GridLayout:
-		cols: 8
-		row_force_default: True
-		row_default_height: 40
-		
-		Label:
-			text: 'Song Name'
-		TextInput:
-		Label:
-			text: 'Artist'
-		TextInput:
-		Label:
-			text: 'Delay'
-		TextInput:
-		Label:
-			text: 'Votes'
-		TextInput:
-
-		Button:
-			on_release: app.root.current = 'main'
-			text: 'Main Menu'
-			font_size: 20
+	VoiceInput
