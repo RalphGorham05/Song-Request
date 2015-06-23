@@ -14,7 +14,7 @@ from kivy.uix.button import Button
 from kivy.core.audio import SoundLoader
 from hmx import FormThread, newTrack
 
-from audioInput import AudioInput
+#from audioInput import AudioInput
 
 class FormInput(GridLayout):
 
@@ -119,12 +119,12 @@ class FormInput(GridLayout):
 class VoiceInput(GridLayout):
     def __init__(self, **kwargs):
         super(VoiceInput, self).__init__(**kwargs)
-        catch = AudioInput()
+        #catch = AudioInput()
         self.cols = 8
         self.row_force_default=True
         self.row_default_height=40
         self.songbutton = Button(text='Song Name',size_hint_x=1, width=50)
-        self.songbutton.bind(on_press = catch.getSong())
+        #self.songbutton.bind(on_press = catch.getSong())
         self.add_widget(self.songbutton)
         self.title= TextInput(text = 'song', multiline=False)
         self.add_widget(self.title)
