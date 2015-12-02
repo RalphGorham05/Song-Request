@@ -50,12 +50,15 @@ def filler(title, artist):
     inputArtist = browser.find_element_by_name('artist')
     inputArtist.send_keys(artist)
 
+    time.sleep(2)#wait for browser
+
     #click submit button
-    browser.find_element_by_css_selector('input.button req_submit').click()
+    browser.find_element_by_xpath("//form[1]").submit()
     
-    
+
+    time.sleep(2)
     #click restart button
-    browser.find_element_by_link_text('Submit another request').click()
+    browser.find_element_by_class_name('button thanks').click()
 
 
     '''
