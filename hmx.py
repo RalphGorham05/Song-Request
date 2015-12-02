@@ -4,9 +4,13 @@ import csv
 import pygame
 
 from mechanize import Browser
+from robobrowser import RoboBrowser
 from bs4 import BeautifulSoup
 #from peewee import *
 from pygame import mixer
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
 class FormThread(threading.Thread):
@@ -34,9 +38,30 @@ class FormThread(threading.Thread):
 
 
 def filler(title, artist):
-    br = Browser()
     url = 'http://harmonixmusic.com/games/rock-band/request/'
-    html = br.open(url)
+    
+    browser = webdriver.Firefox()
+    browser.get(url)
+
+    #Enter song title and artist
+    inputTitle = browser.find_element_by_name("title")
+    inputTitle.send_keys(title)
+
+    inputArtist = browser.find_element_by_name('artist')
+    inputArtist.send_keys(artist)
+
+    #click submit button
+    browser.find_element_by_css_selector('input.button req_submit').click()
+    
+    
+    #click restart button
+    browser.find_element_by_link_text('Submit another request').click()
+
+
+    '''
+    #old Mechanize way -- shut down b/c of added button
+    br = Browser()
+     html = br.open(url)
     br.select_form(nr = 0)
     br.form['title'] = title
     br.form['artist'] = artist
@@ -44,10 +69,16 @@ def filler(title, artist):
 
     content = response.read()
     soup = BeautifulSoup(content)
-    p = soup.find('p').text
+    
+    p = soup.find('p')
     print ''
     print p + ' ' +  title
     print ' '
+    '''
+   
+    
+
+    
 
 
 def writer():
