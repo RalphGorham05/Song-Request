@@ -57,8 +57,8 @@ def filler(title, artist):
     
 
     time.sleep(2)
-    #click restart button
-    browser.find_element_by_class_name('button thanks').click()
+    #click restart button - absolute xpath
+    browser.find_element_by_xpath("/html/body/div/div/div[1]/div/a").click()
 
 
     '''
