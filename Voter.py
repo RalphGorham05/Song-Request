@@ -23,22 +23,24 @@ class Voter:
     def connect_db(title, artist):
         song = {'artist': artist,
                 'title': title,
-                'count': 1,
-                'date': [datetime.datetime.utcnow()]
+                'count': 0,
+                'date': []
                 }
         client = MongoClient()
         db = client.rock_band
         songs = db.songs
-        if songs.find({'title': title}).count > 0:
+        test = db.test
+        if test.find({'title': title}).count > 0:
             print 'already exists'
-            db.rock_band.update({'artist': artist, 'title': title},
-                                      {'$set': {'count': song['count'] + 1}}
-                                      )
-
+            test.update({'artist': artist, 'title': title},
+                         {
+                             '$inc': {'count': 1},
+                             '$set': {'date': datetime.datetime.utcnow()}
+                         }
+                         )
         else:
-            songs.insert(song)
             print 'created'
-
+            test.insert(song)
 
     def run_voter(self):
         song_title = raw_input('What is the song name: ')
@@ -54,8 +56,9 @@ class Voter:
             print 'success'
             thanks_button = site.find_element_by_xpath('/html/body/div/div/div[1]/div/a')
             thanks_button.click()
+            self.connect_db(song_title, artist)
 
         time.sleep(5)
 
 v = Voter()
-v.connect_db('let the flames begin', 'paramore')
+v.run_voter()
