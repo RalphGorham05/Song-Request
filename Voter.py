@@ -20,24 +20,25 @@ class Voter:
         site.find_element_by_css_selector('.button').click()
 
     @staticmethod
-    def connect_db(song, artist):
+    def connect_db(title, artist):
         song = {'artist': artist,
-                'title': song,
+                'title': title,
                 'count': 1,
                 'date': [datetime.datetime.utcnow()]
                 }
         client = MongoClient()
-        db = client.rock_band_votes
-        # collection = db.test_collection
+        db = client.rock_band
         songs = db.songs
-        print songs.find().count()
-        if songs.find({'artist': artist, 'title': song}).count() > 0:
-            song.count += 1
-            song.date.append(datetime.datetime.utcnow())
-            print 'updated'
+        if songs.find({'title': title}).count > 0:
+            print 'already exists'
+            db.rock_band.update({'artist': artist, 'title': title},
+                                      {'$set': {'count': song['count'] + 1}}
+                                      )
+
         else:
-            songs.insert_one(song)
-            print 'nto updated'
+            songs.insert(song)
+            print 'created'
+
 
     def run_voter(self):
         song_title = raw_input('What is the song name: ')
